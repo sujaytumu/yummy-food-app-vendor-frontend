@@ -24,6 +24,7 @@ const Login = ({ showWelcomeHandler }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password })
+        credentials: 'include' // ✅ Add this
       });
 
       const data = await response.json();
@@ -40,7 +41,10 @@ const Login = ({ showWelcomeHandler }) => {
         console.log("checking for VendorId:", vendorId);
 
         // ✅ Fetch vendor details
-        const vendorResponse = await fetch(`${API_URL}/vendor/single-vendor/${vendorId}`);
+        const vendorResponse = await fetch(`${API_URL}/vendor/single-vendor/${vendorId}`, {
+             credentials: 'include' // ✅ Add this too
+        });
+
         const vendorData = await vendorResponse.json();
 
         if (vendorResponse.ok && vendorData.vendor) {

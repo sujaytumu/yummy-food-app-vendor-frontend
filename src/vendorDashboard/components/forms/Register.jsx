@@ -25,6 +25,7 @@ const Register = ({ showLoginHandler }) => {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include', // ✅ Important for cookies/session
         body: JSON.stringify({ username, email, password })
       });
 
