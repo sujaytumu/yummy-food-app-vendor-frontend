@@ -164,10 +164,6 @@ body {
     align-items: center;
 }
 
-.checboxContainer label {
-    width: 100%;
-}
-
 .checboxContainer input {
     margin-left: 0;
 }
