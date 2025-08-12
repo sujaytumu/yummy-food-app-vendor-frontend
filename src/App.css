@@ -157,10 +157,10 @@ body {
 }
 
 .checboxContainer {
-    width: 100%;
-    max-width: 50%;
+    flex: 1 1 auto;     /* ✅ makes each checkbox container flexible */
+    min-width: 120px;   /* ✅ prevents checkbox + label from squishing */
     display: flex;
-    justify-content: center;
+    gap: 5px;           /* ✅ space between label and checkbox */
     align-items: center;
 }
 
@@ -169,7 +169,7 @@ body {
 }
 
 .checboxContainer input {
-    margin-left: -180px;
+    margin-left: 0;
 }
 
 .checboxContainer label {
