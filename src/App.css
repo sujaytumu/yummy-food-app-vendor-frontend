@@ -141,6 +141,9 @@ body {
 
 /* check box inputs */
 
+
+
+/* ---------- keep these two as they were (small tweak in mobile handled below) ---------- */
 .checkInp {
     width: 100%;
     max-width: 85%;
@@ -151,34 +154,67 @@ body {
     width: 20%;
 }
 
+/* ---------- INPUTS CONTAINER (desktop-friendly by default) ---------- */
 .inputsContainer {
     width: 100%;
     display: flex;
+    gap: 10px;          /* ✅ UPDATED: spacing between items */
+    align-items: center;/* ✅ UPDATED: vertically center checkbox + label */
+    flex-wrap: nowrap;  /* keep inline on larger screens */
 }
 
+/* ---------- checkbox container (base behaviour for desktop/tablet) ---------- */
 .checboxContainer {
-    flex: 1 1 auto;     /* ✅ makes each checkbox container flexible */
-    min-width: 120px;   /* ✅ prevents checkbox + label from squishing */
-    display: flex;
-    gap: 5px;           /* ✅ space between label and checkbox */
-    align-items: center;
-}
-
-.checboxContainer label {
     width: 100%;
+    max-width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 6px;              /* ✅ UPDATED: space between checkbox and label */
+    justify-content: flex-start; /* ✅ UPDATED: keep checkbox next to label */
 }
 
+/* avoid weird negative offsets (already fine in your file) */
 .checboxContainer input {
     margin-left: 0;
 }
 
+/* consolidate label rule (removed duplicate definitions) */
 .checboxContainer label {
+    width: auto;          /* ✅ UPDATED: let label size to content on larger screens */
     font-size: small;
 }
 
+/* ---------- Responsive tweaks for small screens ---------- */
+@media (max-width: 767px) {
+    /* stack the form label above the controls for narrow view */
+    .checkInp {
+        flex-direction: column;    /* ✅ UPDATED: label above inputs on mobile */
+        align-items: flex-start;   /* left-align contents */
+        gap: 8px;
+    }
+
+    .checkInp label {
+        width: auto;               /* label wraps naturally on mobile */
+        margin-bottom: 6px;
+    }
+
+    .inputsContainer {
+        flex-wrap: wrap;           /* ✅ UPDATED: allow wrapping on mobile */
+        gap: 8px;                  /* slightly smaller gaps on mobile */
+    }
+
+    /* make each checkbox block take ~half width on mobile so they look neat */
+    .checboxContainer {
+        flex: 1 1 45%;             /* ✅ UPDATED: two per row on most phones */
+        min-width: 120px;          /* prevent label+box from squishing */
+    }
+}
+
+/* keep the small-regBox rule */
 .regBoxContainer label {
     font-size: small;
 }
+
 
 
 /* products table */
