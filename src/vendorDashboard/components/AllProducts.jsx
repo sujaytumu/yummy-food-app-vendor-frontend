@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { API_URL } from '../data/apiPath';
+import React, { useState, useEffect } from 'react';import { API_URL } from '../data/apiPath';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
 
   const productsHandler = async () => {
-  const firmId = localStorage.getItem('firmId');
-  try {
-    const response = await fetch(`${API_URL}/product/${firmId}/products`);
+    const firmId = localStorage.getItem('firmId');
+    try {
+      const response = await fetch(`${API_URL}/product/${firmId}/products`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const newProductsData = await response.json();
+      setProducts(newProductsData.products);
+      console.log(newProductsData);
+    } catch (error) {
+      console.error("failed to fetch products", error);
+      alert('failed to fetch products');
     }
-
-    const newProductsData = await response.json();
-    setProducts(newProductsData.products);
-    console.log(newProductsData);
-  } catch (error) {
-    console.error("failed to fetch products", error);
-    alert('failed to fetch products');
-  }
-};
-
+  };
 
   useEffect(() => {
     productsHandler();
@@ -29,17 +27,22 @@ const AllProducts = () => {
   }, []);
 
   const deleteProductById = async (productId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
+
     try {
       const response = await fetch(`${API_URL}/product/${productId}`, {
         method: 'DELETE',
       });
+
       if (response.ok) {
-        setProducts(products.filter(product => product._id !== productId));
-        confirm("Are you sure you want to delete?");
-        alert("Product deleted Successfully");
+        setProducts((prevProducts) => prevProducts.filter(product => product._id !== productId));
+        alert("Product deleted successfully");
+      } else {
+        alert("Failed to delete product");
       }
     } catch (error) {
-      console.error('Failed to delete product');
+      console.error('Failed to delete product', error);
       alert('Failed to delete product');
     }
   };
@@ -66,9 +69,9 @@ const AllProducts = () => {
                 <td>
                   {item.image && (
                     <img
-                      src={`${API_URL}/uploads/${item.image}`}
+                      src={item.image} // ✅ use cloudinary url directly
                       alt={item.productName}
-                      style={{ width: '50px', height: '50px' }}
+                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                     />
                   )}
                 </td>
@@ -90,3 +93,4 @@ const AllProducts = () => {
 };
 
 export default AllProducts;
+
