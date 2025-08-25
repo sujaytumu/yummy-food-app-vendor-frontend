@@ -1,31 +1,33 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import { API_URL } from '../../data/apiPath';
 import { ThreeCircles } from 'react-loader-spinner';
 
-const AddProduct = () => {
-  const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState("");
+const AddFirm = () => {
+  const [firmName, setFirmName] = useState("");
+  const [area, setArea] = useState("");
   const [category, setCategory] = useState([]);
-  const [bestSeller, setBestSeller] = useState(false);
-  const [image, setImage] = useState(null);
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [region, setRegion] = useState([]);
+  const [offer, setOffer] = useState("");
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleCategoryChange = (event)=>{
+  const handleCategoryChange = (event) => {
     const value = event.target.value;
     setCategory((prev) =>
-      prev.includes(value) ? prev.filter((item)=> item !== value) : [...prev, value]
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
     );
-  }
+  };
 
-  const handleBestSeller =(event)=>{
-    const value = event.target.value === 'true';
-    setBestSeller(value);
-  }
+  const handleRegionChange = (event) => {
+    const value = event.target.value;
+    setRegion((prev) =>
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+    );
+  };
 
-  const handleImageUpload =(event)=>{
-    setImage(event.target.files[0]);
-  }
+  const handleImageUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   const uploadToCloudinary = async (file) => {
     const data = new FormData();
@@ -42,125 +44,130 @@ const AddProduct = () => {
     return cloudData.secure_url;
   };
 
-  const handleAddProduct = async(e)=>{
+  const handleFirmSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
 
     try {
       const loginToken = localStorage.getItem('loginToken');
-      const firmId = localStorage.getItem('firmId');
-
-      if(!loginToken || !firmId){
-        console.error("user not authenticated");
+      if (!loginToken) {
+        alert("Login required");
         return;
       }
 
       let imageUrl = "";
-      if (image) {
-        imageUrl = await uploadToCloudinary(image);
+      if (file) {
+        imageUrl = await uploadToCloudinary(file);
       }
 
       const body = {
-        productName,
-        price,
-        description,
-        bestSeller,
+        firmName,
+        area,
+        offer,
         category,
+        region,
         image: imageUrl,
       };
 
-      const response = await fetch(`${API_URL}/product/add-product/${firmId}`, {
-        method:'POST',
+      const response = await fetch(`${API_URL}/firm/add-firm`, {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${loginToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
 
       const data = await response.json();
 
-      if(response.ok){
-        alert('Product added succesfully');
+      if (response.ok) {
+        localStorage.setItem('firmId', data.firmId);
+        localStorage.setItem('firmName', data.vendorFirmName);
+
+        setFirmName("");
+        setArea("");
+        setCategory([]);
+        setRegion([]);
+        setOffer("");
+        setFile(null);
+
+        alert("Firm added Successfully");
+        window.location.reload();
+      } else {
+        console.error("Firm add error:", data.message);
+        alert(data.message || "Failed to add firm");
       }
 
-      setProductName("");
-      setPrice("");
-      setCategory([]);
-      setBestSeller(false);
-      setImage(null);
-      setDescription("");
-
     } catch (error) {
-      alert('Failed to add Product');
-    }finally {
-      setLoading(false); 
+      console.error("Failed to add Firm", error);
+      alert("Failed to add Firm");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="firmSection">
-      {loading && (
+      {loading ? (
         <div className="loaderSection">
-          <ThreeCircles
-            visible={loading}
-            height={100}
-            width={100}
-            color="#4fa94d"
-          />
-          <p>Please wait, your product is being added...</p>
+          <ThreeCircles visible height={100} width={100} color="#4fa94d" />
         </div>
-      )}
-      {!loading && 
-        <form className="tableForm" onSubmit={handleAddProduct}>
-          <h3>Add Product</h3>
-          <label >Product Name</label>
-          <input type="text" value={productName} onChange={(e)=>setProductName(e.target.value)} />
+      ) : (
+        <form className="tableForm" onSubmit={handleFirmSubmit}>
+          <h3>Add Firm</h3>
+          <label>Firm Name</label>
+          <input type="text" value={firmName} onChange={(e) => setFirmName(e.target.value)} />
 
-          <label >Price</label>
-          <input type="text" value={price} onChange={(e)=>setPrice(e.target.value)}/>
+          <label>Area</label>
+          <input type="text" value={area} onChange={(e) => setArea(e.target.value)} />
 
           <div className="checkInp">
-            <label >Category</label>
+            <label>Category</label>
             <div className="inputsContainer">
-              <div className="checboxContainer">
-                <label>Veg</label>
-                <input type="checkbox" value="veg" checked ={category.includes('veg')}  onChange={handleCategoryChange}/>
-              </div>
-              <div className="checboxContainer">
-                <label>Non-Veg</label>
-                <input type="checkbox" value="non-veg" checked ={category.includes('non-veg')} onChange={handleCategoryChange} />
-              </div>
+              {['veg', 'non-veg'].map((cat) => (
+                <div className="checboxContainer" key={cat}>
+                  <label>{cat}</label>
+                  <input
+                    type="checkbox"
+                    value={cat}
+                    checked={category.includes(cat)}
+                    onChange={handleCategoryChange}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
+          <label>Offer</label>
+          <input type="text" value={offer} onChange={(e) => setOffer(e.target.value)} />
+
           <div className="checkInp">
-            <label >Best Seller</label>
+            <label>Region</label>
             <div className="inputsContainer">
-              <div className="checboxContainer">
-                <label>Yes</label>
-                <input type="radio" value="true" checked = {bestSeller=== true} onChange={handleBestSeller}/>
-              </div>
-              <div className="checboxContainer">
-                <label>No</label>
-                <input type="radio" value="false" checked = {bestSeller=== false} onChange={handleBestSeller}/>
-              </div>
+              {['south-indian', 'north-indian', 'chinese', 'bakery'].map((reg) => (
+                <div className="regBoxContainer" key={reg}>
+                  <label>{reg}</label>
+                  <input
+                    type="checkbox"
+                    value={reg}
+                    checked={region.includes(reg)}
+                    onChange={handleRegionChange}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
-          <label >Description</label>
-          <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} />
-
-          <label >Product Image</label>
+          <label>Firm Image</label>
           <input type="file" onChange={handleImageUpload} />
 
           <div className="btnSubmit">
-            <button type='submit'>Submit</button>
+            <button type="submit">Submit</button>
           </div>
         </form>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default AddProduct;
+export default AddFirm;
