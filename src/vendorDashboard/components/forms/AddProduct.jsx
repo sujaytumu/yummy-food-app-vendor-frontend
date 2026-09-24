@@ -30,6 +30,22 @@ const AddProduct = () => {
       setImage(selectedImage);
     }
 
+    // UPDATED: upload image straight to Cloudinary (same as AddFirm) and store the secure_url
+    const uploadToCloudinary = async (file) => {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "ml_default");
+      const res = await fetch("https://api.cloudinary.com/v1_1/dw6srh3vk/image/upload", {
+        method: "POST",
+        body: data,
+      });
+      const cloudData = await res.json();
+      if (!res.ok || !cloudData.secure_url) {
+        throw new Error(cloudData?.error?.message || "Cloudinary upload failed");
+      }
+      return cloudData.secure_url;
+    };
+
     const handleAddProduct = async(e) => {
       e.preventDefault();
       setLoading(true); 
@@ -39,38 +55,41 @@ const AddProduct = () => {
         const firmId = localStorage.getItem('firmId');
 
         if(!loginToken || !firmId){
-          console.error("user not authenticated");
+          alert("Please login and add a firm first");
+          return;
         }
-          
-        const formData = new FormData();
-        formData.append('productName', productName);
-        formData.append('price', price);
-        formData.append('description', description);
-        formData.append('bestSeller', bestSeller);
-        formData.append('image', image);
 
-        category.forEach((value)=>{
-          formData.append('category', value);
-        });
-   
+        // UPDATED: image -> Cloudinary URL first; backend just stores this string
+        let imageUrl = "";
+        if (image) {
+          imageUrl = await uploadToCloudinary(image);
+        }
+
+        // UPDATED: send JSON instead of multipart FormData (no file goes to backend now)
+        const body = { productName, price, description, bestSeller, category, image: imageUrl };
+
         const response = await fetch(`${API_URL}/product/add-product/${firmId}`, {
           method:'POST',
-          body: formData
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
         });
         const data = await response.json();
 
         if(response.ok){
           alert('Product added succesfully');
+          setProductName("");
+          setPrice("");
+          setCategory([]);
+          setBestSeller(false);
+          setImage(null);
+          setDescription("");
+        } else {
+          alert(data.error || 'Failed to add Product');
         }
-        setProductName("");
-        setPrice("");
-        setCategory([]);
-        setBestSeller(false);
-        setImage(null);
-        setDescription("");
 
       } catch (error) {
-        alert('Failed to add Product');
+        console.error(error);
+        alert('Failed to add Product: ' + error.message);
       } finally {
         setLoading(false); 
       }
@@ -139,7 +158,7 @@ const AddProduct = () => {
           <label>Description</label>
           <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} />
           <label>Firm Image</label>
-          <input type="file" onChange={handleImageUpload} />
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
           <br />
           <div className="btnSubmit">
             <button type='submit'>Submit</button>

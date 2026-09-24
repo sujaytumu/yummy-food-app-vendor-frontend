@@ -41,6 +41,10 @@ const AddFirm = () => {
     });
 
     const cloudData = await res.json();
+    // UPDATED: fail loudly instead of silently saving an empty image
+    if (!res.ok || !cloudData.secure_url) {
+      throw new Error(cloudData?.error?.message || "Cloudinary upload failed");
+    }
     return cloudData.secure_url;
   };
 
