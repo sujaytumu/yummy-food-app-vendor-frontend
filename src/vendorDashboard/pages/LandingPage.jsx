@@ -8,6 +8,7 @@ import AddProduct from '../components/forms/AddProduct';
 import Welcome from '../components/Welcome';
 import AllProducts from '../components/AllProducts';
 import UserDetails from '../components/UserDetails'; // ✅ NEW IMPORT
+import Orders from '../components/Orders'; // NEW: paid customer orders
 
 const LandingPage = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -17,6 +18,7 @@ const LandingPage = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false); // ✅ NEW
+  const [showOrders, setShowOrders] = useState(false); // NEW
   const [showLogOut, setShowLogOut] = useState(false);
   const [showFirmTitle, setShowFirmTitle] = useState(true);
 
@@ -55,6 +57,7 @@ const LandingPage = () => {
     setShowWelcome(false);
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
+    setShowOrders(false); // NEW
   };
 
   const showRegisterHandler = () => {
@@ -65,6 +68,7 @@ const LandingPage = () => {
     setShowWelcome(false);
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
+    setShowOrders(false); // NEW
   };
 
   const showFirmHandler = () => {
@@ -76,6 +80,7 @@ const LandingPage = () => {
       setShowWelcome(false);
       setShowAllProducts(false);
       setShowUserDetails(false); // ✅
+      setShowOrders(false); // NEW
     } else {
       alert("please login");
       setShowLogin(true);
@@ -91,6 +96,7 @@ const LandingPage = () => {
       setShowWelcome(false);
       setShowAllProducts(false);
       setShowUserDetails(false); // ✅
+      setShowOrders(false); // NEW
     } else {
       alert("please login");
       setShowLogin(true);
@@ -105,6 +111,7 @@ const LandingPage = () => {
     setShowWelcome(true);
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
+    setShowOrders(false); // NEW
   };
 
   const showAllProductsHandler = () => {
@@ -116,6 +123,7 @@ const LandingPage = () => {
       setShowWelcome(false);
       setShowAllProducts(true);
       setShowUserDetails(false); // ✅
+      setShowOrders(false); // NEW
     } else {
       alert("please login");
       setShowLogin(true);
@@ -131,6 +139,24 @@ const LandingPage = () => {
       setShowWelcome(false);
       setShowAllProducts(false);
       setShowUserDetails(true);
+      setShowOrders(false); // NEW
+    } else {
+      alert("please login");
+      setShowLogin(true);
+    }
+  };
+
+  // NEW: Orders tab handler (same pattern as the others)
+  const showOrdersHandler = () => {
+    if (showLogOut) {
+      setShowRegister(false);
+      setShowLogin(false);
+      setShowFirm(false);
+      setShowProduct(false);
+      setShowWelcome(false);
+      setShowAllProducts(false);
+      setShowUserDetails(false);
+      setShowOrders(true);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -152,6 +178,7 @@ const LandingPage = () => {
             showProductHandler={showProductHandler}
             showAllProductsHandler={showAllProductsHandler}
             showUserDetailsHandler={showUserDetailsHandler} // ✅ PASS HANDLER
+            showOrdersHandler={showOrdersHandler} // NEW
             showFirmTitle={showFirmTitle}
           />
           {showFirm && showLogOut && <AddFirm />}
@@ -159,6 +186,7 @@ const LandingPage = () => {
           {showWelcome && <Welcome />}
           {showAllProducts && showLogOut && <AllProducts />}
           {showUserDetails && showLogOut && <UserDetails />} {/* ✅ FINAL RENDER */}
+          {showOrders && showLogOut && <Orders />} {/* NEW */}
           {showLogin && <Login showWelcomeHandler={showWelcomeHandler} />}
           {showRegister && <Register showLoginHandler={showLoginHandler} />}
         </div>
