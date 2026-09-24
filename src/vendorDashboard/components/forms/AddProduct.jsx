@@ -48,6 +48,11 @@ const AddProduct = () => {
 
     const handleAddProduct = async(e) => {
       e.preventDefault();
+      // NEW: validate before doing any upload
+      if (!productName.trim() || !price.trim()) {
+        alert("Product name and price are required");
+        return;
+      }
       setLoading(true); 
 
       try {

@@ -50,6 +50,11 @@ const AddFirm = () => {
 
   const handleFirmSubmit = async (e) => {
     e.preventDefault();
+    // NEW: validate before doing any upload
+    if (!firmName.trim() || !area.trim()) {
+      alert("Firm name and area are required");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -99,7 +104,8 @@ const AddFirm = () => {
         window.location.reload();
       } else {
         console.error("Firm add error:", data.message);
-        alert(data.message || "Failed to add firm");
+        // UPDATED: show whichever message the backend sent (incl. expired-login 403 which uses `error`)
+        alert(data.message || data.error || "Failed to add firm");
       }
 
     } catch (error) {
