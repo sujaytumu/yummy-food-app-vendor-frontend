@@ -5,6 +5,7 @@ const SideBar = ({
   showProductHandler,
   showAllProductsHandler,
   showUserDetailsHandler, // ✅ added
+  showOrdersHandler, // NEW
   showFirmTitle
 }) => {
   return (
@@ -13,6 +14,7 @@ const SideBar = ({
         {showFirmTitle && <li onClick={showFirmHandler}>Add Firm</li>}
         <li onClick={showProductHandler}>Add Product</li>
         <li onClick={showAllProductsHandler}>All Products</li>
+        <li onClick={showOrdersHandler}>Orders</li> {/* NEW */}
         <li onClick={showUserDetailsHandler}>User Details</li> {/* ✅ added click */}
       </ul>
     </div>
