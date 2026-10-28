@@ -320,3 +320,11 @@ h3 {
 .loaderSection {
     z-index: 10000;
 }
+
+/* NEW: order status pill + advance button */
+.statusPill { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 6px; background: #eee; color: #333; }
+.statusPill.status-placed { background: #fde7c7; color: #8a5a00; }
+.statusPill.status-preparing { background: #d6e4ff; color: #1d4ed8; }
+.statusPill.status-out_for_delivery { background: #e3d6ff; color: #6b21a8; }
+.statusPill.status-delivered { background: #d3f4dd; color: #15803d; }
+.statusAdvanceBtn { display: block; font-size: 12px; padding: 4px 8px; cursor: pointer; }
