@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../data/apiPath';
+import { authFetch } from '../data/authFetch';
 
 // NEW: delivery status steps (must match backend utils/orderStatus.js)
 const STEPS = [
@@ -25,10 +26,7 @@ const Orders = () => {
     setLoading(true);
     setError('');
     try {
-      const loginToken = localStorage.getItem('loginToken');
-      const response = await fetch(`${API_URL}/payment/vendor-orders`, {
-        headers: { Authorization: `Bearer ${loginToken}` },
-      });
+      const response = await authFetch(`${API_URL}/payment/vendor-orders`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(response.status === 403 ? 'Session expired, please logout and login again' : data.error || 'Failed to load orders');
@@ -55,10 +53,9 @@ const Orders = () => {
     if (!next) return;
     setUpdatingId(order._id);
     try {
-      const loginToken = localStorage.getItem('loginToken');
-      const response = await fetch(`${API_URL}/payment/order-status/${order._id}`, {
+      const response = await authFetch(`${API_URL}/payment/order-status/${order._id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${loginToken}` },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: next.status }),
       });
       const data = await response.json();

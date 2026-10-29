@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../data/apiPath';
+import { authFetch } from '../data/authFetch';
 
-const authHeaders = () => ({
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${localStorage.getItem('loginToken')}`,
-});
+const jsonHeaders = { 'Content-Type': 'application/json' };
 
 const uploadToCloudinary = async (file) => {
   const data = new FormData();
@@ -62,9 +60,8 @@ const AllProducts = () => {
 
     setBusyId(productId);
     try {
-      const response = await fetch(`${API_URL}/product/${productId}`, {
+      const response = await authFetch(`${API_URL}/product/${productId}`, {
         method: 'DELETE',
-        headers: authHeaders(),
       });
       if (response.ok) {
         setProducts((prev) => prev.filter((p) => p._id !== productId));
@@ -84,9 +81,9 @@ const AllProducts = () => {
     const next = item.inStock === false; // currently out -> bring back in stock
     setBusyId(item._id);
     try {
-      const response = await fetch(`${API_URL}/product/${item._id}`, {
+      const response = await authFetch(`${API_URL}/product/${item._id}`, {
         method: 'PATCH',
-        headers: authHeaders(),
+        headers: jsonHeaders,
         body: JSON.stringify({ inStock: next }),
       });
       if (!response.ok) throw new Error(await errorFrom(response, 'Failed to update stock'));
@@ -127,9 +124,9 @@ const AllProducts = () => {
     try {
       const body = { ...form };
       if (newImage) body.image = await uploadToCloudinary(newImage);
-      const response = await fetch(`${API_URL}/product/${editing._id}`, {
+      const response = await authFetch(`${API_URL}/product/${editing._id}`, {
         method: 'PATCH',
-        headers: authHeaders(),
+        headers: jsonHeaders,
         body: JSON.stringify(body),
       });
       if (!response.ok) throw new Error(await errorFrom(response, 'Failed to save product'));

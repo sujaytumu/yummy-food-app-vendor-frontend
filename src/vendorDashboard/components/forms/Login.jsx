@@ -36,6 +36,7 @@ const Login = ({ showWelcomeHandler }) => {
 
         // ✅ Save token
         localStorage.setItem('loginToken', data.token);
+        if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken); // silent re-login
 
         const vendorId = data.vendorId;
         console.log("checking for VendorId:", vendorId);

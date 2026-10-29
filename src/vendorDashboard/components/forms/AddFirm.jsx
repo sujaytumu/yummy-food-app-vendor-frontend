@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { API_URL } from '../../data/apiPath';
+import { authFetch } from '../../data/authFetch';
 import { ThreeCircles } from 'react-loader-spinner';
 
 const AddFirm = () => {
@@ -78,10 +79,9 @@ const AddFirm = () => {
         image: imageUrl,
       };
 
-      const response = await fetch(`${API_URL}/firm/add-firm`, {
+      const response = await authFetch(`${API_URL}/firm/add-firm`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${loginToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),

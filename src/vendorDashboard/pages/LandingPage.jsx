@@ -9,6 +9,8 @@ import Welcome from '../components/Welcome';
 import AllProducts from '../components/AllProducts';
 import UserDetails from '../components/UserDetails'; // ✅ NEW IMPORT
 import Orders from '../components/Orders'; // NEW: paid customer orders
+import Analytics from '../components/Analytics'; // NEW: sales analytics
+import { endSession } from '../data/authFetch';
 
 const LandingPage = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -19,6 +21,7 @@ const LandingPage = () => {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false); // ✅ NEW
   const [showOrders, setShowOrders] = useState(false); // NEW
+  const [showAnalytics, setShowAnalytics] = useState(false); // NEW
   const [showLogOut, setShowLogOut] = useState(false);
   const [showFirmTitle, setShowFirmTitle] = useState(true);
 
@@ -40,10 +43,8 @@ const LandingPage = () => {
   }, []);
 
   const logOutHandler = () => {
-    confirm("Are you sure to logout?");
-    localStorage.removeItem("loginToken");
-    localStorage.removeItem("firmId");
-    localStorage.removeItem("firmName");
+    if (!window.confirm("Are you sure to logout?")) return; // Cancel now really cancels
+    endSession(); // revokes this browser's refresh token on the server and clears local login data
     setShowLogOut(false);
     setShowFirmTitle(true);
     setShowWelcome(false);
@@ -58,6 +59,7 @@ const LandingPage = () => {
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
     setShowOrders(false); // NEW
+    setShowAnalytics(false);
   };
 
   const showRegisterHandler = () => {
@@ -69,6 +71,7 @@ const LandingPage = () => {
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
     setShowOrders(false); // NEW
+    setShowAnalytics(false);
   };
 
   const showFirmHandler = () => {
@@ -81,6 +84,7 @@ const LandingPage = () => {
       setShowAllProducts(false);
       setShowUserDetails(false); // ✅
       setShowOrders(false); // NEW
+      setShowAnalytics(false);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -97,6 +101,7 @@ const LandingPage = () => {
       setShowAllProducts(false);
       setShowUserDetails(false); // ✅
       setShowOrders(false); // NEW
+      setShowAnalytics(false);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -112,6 +117,7 @@ const LandingPage = () => {
     setShowAllProducts(false);
     setShowUserDetails(false); // ✅
     setShowOrders(false); // NEW
+    setShowAnalytics(false);
   };
 
   const showAllProductsHandler = () => {
@@ -124,6 +130,7 @@ const LandingPage = () => {
       setShowAllProducts(true);
       setShowUserDetails(false); // ✅
       setShowOrders(false); // NEW
+      setShowAnalytics(false);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -140,6 +147,7 @@ const LandingPage = () => {
       setShowAllProducts(false);
       setShowUserDetails(true);
       setShowOrders(false); // NEW
+      setShowAnalytics(false);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -157,6 +165,25 @@ const LandingPage = () => {
       setShowAllProducts(false);
       setShowUserDetails(false);
       setShowOrders(true);
+      setShowAnalytics(false);
+    } else {
+      alert("please login");
+      setShowLogin(true);
+    }
+  };
+
+  // NEW: Analytics tab handler (same pattern as the others)
+  const showAnalyticsHandler = () => {
+    if (showLogOut) {
+      setShowRegister(false);
+      setShowLogin(false);
+      setShowFirm(false);
+      setShowProduct(false);
+      setShowWelcome(false);
+      setShowAllProducts(false);
+      setShowUserDetails(false);
+      setShowOrders(false);
+      setShowAnalytics(true);
     } else {
       alert("please login");
       setShowLogin(true);
@@ -179,8 +206,9 @@ const LandingPage = () => {
             showAllProductsHandler={showAllProductsHandler}
             showUserDetailsHandler={showUserDetailsHandler} // ✅ PASS HANDLER
             showOrdersHandler={showOrdersHandler} // NEW
+            showAnalyticsHandler={showAnalyticsHandler} // NEW
             showFirmTitle={showFirmTitle}
-            activeTab={showFirm ? "firm" : showProduct ? "product" : showAllProducts ? "all" : showOrders ? "orders" : showUserDetails ? "user" : null} // NEW: highlights the current tab
+            activeTab={showFirm ? "firm" : showProduct ? "product" : showAllProducts ? "all" : showOrders ? "orders" : showAnalytics ? "analytics" : showUserDetails ? "user" : null} // NEW: highlights the current tab
           />
           {showFirm && showLogOut && <AddFirm />}
           {showProduct && showLogOut && <AddProduct />}
@@ -188,6 +216,7 @@ const LandingPage = () => {
           {showAllProducts && showLogOut && <AllProducts />}
           {showUserDetails && showLogOut && <UserDetails />} {/* ✅ FINAL RENDER */}
           {showOrders && showLogOut && <Orders />} {/* NEW */}
+          {showAnalytics && showLogOut && <Analytics />} {/* NEW */}
           {showLogin && <Login showWelcomeHandler={showWelcomeHandler} />}
           {showRegister && <Register showLoginHandler={showLoginHandler} />}
         </div>
