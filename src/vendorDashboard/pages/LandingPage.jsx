@@ -180,6 +180,7 @@ const LandingPage = () => {
             showUserDetailsHandler={showUserDetailsHandler} // ✅ PASS HANDLER
             showOrdersHandler={showOrdersHandler} // NEW
             showFirmTitle={showFirmTitle}
+            activeTab={showFirm ? "firm" : showProduct ? "product" : showAllProducts ? "all" : showOrders ? "orders" : showUserDetails ? "user" : null} // NEW: highlights the current tab
           />
           {showFirm && showLogOut && <AddFirm />}
           {showProduct && showLogOut && <AddProduct />}

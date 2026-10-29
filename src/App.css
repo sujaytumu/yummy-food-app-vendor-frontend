@@ -1,104 +1,138 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap'); */
+/* ============================================================
+   YUMMY — Vendor Dashboard design tokens
+   Shares the brand (chili red + turmeric gold) with the
+   customer site, in a calmer operations-dashboard register:
+   warm charcoal sidebar, cream content, clear active states.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,900&family=Figtree:wght@400;500;600;700;800&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&family=Comme:wght@100..900&family=Hind+Guntur:wght@300;400;500;600;700&display=swap');
+:root {
+    --ink: #201812;
+    --ink-soft: #5b4a3e;
+    --muted: #8a7b6e;
+    --paper: #faf6f0;
+    --surface: #ffffff;
+    --line: #e7dece;
+    --brand: #c8372b;
+    --brand-dark: #9c2920;
+    --gold: #e3a008;
+    --sage: #3f7d4f;
+    --sidebar: #24180f;
+    --sidebar-text: #ecdfd0;
+    --radius-s: 8px;
+    --radius-m: 14px;
+    --shadow-card: 0 10px 30px -16px rgba(32, 24, 18, 0.35);
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Figtree", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
 body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    /* font-family: "Roboto Condensed", sans-serif; */
-    font-family: "Comme", sans-serif;
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
 }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
+
+button { font-family: inherit; cursor: pointer; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 .navSection {
-    height: 80px;
+    height: 72px;
     display: flex;
     justify-content: space-between;
-    /* background-color: rgb(54, 52, 180); */
-    background-color: #F46036;
     align-items: center;
-    color: white;
-    padding: 0 20px;
-    font-size: large;
+    background-color: var(--sidebar);
+    color: #fff;
+    padding: 0 24px;
+    font-size: 1.1rem;
 }
+.navSection h2, .navSection .companyTitle { font-family: var(--font-display); font-style: italic; color: var(--gold); margin: 0; }
 
-.userAuth {
-    cursor: pointer;
-}
+.userAuth { cursor: pointer; font-weight: 600; }
+.logout { cursor: pointer; font-weight: 600; }
 
-.logout {
-    cursor: pointer;
-}
+/* ---- sidebar ---- */
 
 .sideBarSection {
     width: 100%;
     max-width: 15%;
+    min-width: 200px;
     height: 95vh;
-    padding-top: 10px;
-    /* background-color: lightgray; */
-    background-color: #2E294E;
-    color: white;
+    padding-top: 16px;
+    background-color: var(--sidebar);
+    color: var(--sidebar-text);
 }
+
+.sideBarSection ul { padding-left: 0; }
 
 .sideBarSection ul li {
     list-style: none;
-    margin-bottom: 20px;
-    font-weight: 500;
-    font-size: medium;
+    margin-bottom: 4px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 0.98rem;
     cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.sideBarSection ul li:hover { background: rgba(255, 255, 255, 0.06); }
+.sideBarSection ul li.active {
+    background: rgba(227, 160, 8, 0.16);
+    border-left-color: var(--gold);
+    color: var(--gold);
 }
 
-.collectionSection {
-    display: flex;
-}
+.collectionSection { display: flex; }
 
+/* ---- login / register ---- */
 
-/* logisetion */
-
-.loginSection {
+.loginSection, .registerSection {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-height: 80vh;
 }
 
-.registerSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.authForm label {
-    width: 100%;
-    max-width: 55%;
-    font-weight: 400;
-}
+.authForm label { width: 100%; max-width: 55%; font-weight: 600; color: var(--ink-soft); }
 
 .authForm {
     width: 100%;
-    max-width: 50%;
-    margin-top: -230px;
+    max-width: 420px;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border: 1px solid gray;
-    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-card);
+    padding: 32px 0;
     position: relative;
 }
+.authForm h2, .authForm h3 { margin-top: 0; }
 
 .authForm input {
     width: 100%;
     max-width: 55%;
-    height: 1.4rem;
-    height: 2rem;
-    font-size: medium;
+    height: 2.2rem;
+    font-size: 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 0 10px;
+    background: var(--paper);
+    color: var(--ink);
 }
+.authForm input:focus { outline: none; border-color: var(--brand); background: #fff; }
 
-
-/* firmSection AddFirm */
+/* ---- firmSection AddFirm / AddProduct ---- */
 
 .firmSection {
     width: 100%;
@@ -106,153 +140,125 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 24px;
 }
 
 .tableForm {
     width: 100%;
-    max-width: 50%;
-    margin-top: -100px;
+    max-width: 480px;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border: 1px solid gray;
-    -webkit-box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
-    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-m);
+    padding: 28px 0;
 }
+.tableForm h2, .tableForm h3 { margin-top: 0; }
 
 .tableForm input {
     width: 100%;
-    max-width: 55%;
-    height: 35px;
     max-width: 85%;
-    margin-bottom: 10px;
+    height: 38px;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 0 10px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
 }
+.tableForm input:focus { outline: none; border-color: var(--brand); background: #fff; }
 
-.tableForm label {
-    width: 100%;
-    max-width: 85%;
-    font-weight: 600;
-}
+.tableForm label { width: 100%; max-width: 85%; font-weight: 700; color: var(--ink-soft); }
 
+/* ---- checkboxes ---- */
 
-/* check box inputs */
+.checkInp { width: 100%; max-width: 85%; display: flex; }
+.checkInp label { width: 20%; }
 
-
-
-/* ---------- keep these two as they were (small tweak in mobile handled below) ---------- */
-.checkInp {
-    width: 100%;
-    max-width: 85%;
-    display: flex;
-}
-
-.checkInp label {
-    width: 20%;
-}
-
-/* ---------- INPUTS CONTAINER (desktop-friendly by default) ---------- */
 .inputsContainer {
     width: 100%;
     display: flex;
-    gap: 10px;          /* ✅ UPDATED: spacing between items */
-    align-items: center;/* ✅ UPDATED: vertically center checkbox + label */
-    flex-wrap: nowrap;  /* keep inline on larger screens */
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
-/* ---------- checkbox container (base behaviour for desktop/tablet) ---------- */
 .checboxContainer {
     width: 100%;
     max-width: 50%;
     display: flex;
     align-items: center;
-    gap: 6px;              /* ✅ UPDATED: space between checkbox and label */
-    justify-content: flex-start; /* ✅ UPDATED: keep checkbox next to label */
+    gap: 6px;
+    justify-content: flex-start;
 }
+.checboxContainer input { margin-left: 0; accent-color: var(--brand); }
+.checboxContainer label { width: auto; font-size: small; color: var(--ink-soft); }
 
-/* avoid weird negative offsets (already fine in your file) */
-.checboxContainer input {
-    margin-left: 0;
-}
-
-/* consolidate label rule (removed duplicate definitions) */
-.checboxContainer label {
-    width: auto;          /* ✅ UPDATED: let label size to content on larger screens */
-    font-size: small;
-}
-
-/* ---------- Responsive tweaks for small screens ---------- */
 @media (max-width: 767px) {
-    /* stack the form label above the controls for narrow view */
-    .checkInp {
-        flex-direction: column;    /* ✅ UPDATED: label above inputs on mobile */
-        align-items: flex-start;   /* left-align contents */
-        gap: 8px;
-    }
-
-    .checkInp label {
-        width: auto;               /* label wraps naturally on mobile */
-        margin-bottom: 6px;
-    }
-
-    .inputsContainer {
-        flex-wrap: wrap;           /* ✅ UPDATED: allow wrapping on mobile */
-        gap: 8px;                  /* slightly smaller gaps on mobile */
-    }
-
-    /* make each checkbox block take ~half width on mobile so they look neat */
-    .checboxContainer {
-        flex: 1 1 45%;             /* ✅ UPDATED: two per row on most phones */
-        min-width: 120px;          /* prevent label+box from squishing */
-    }
+    .checkInp { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .checkInp label { width: auto; margin-bottom: 6px; }
+    .inputsContainer { flex-wrap: wrap; gap: 8px; }
+    .checboxContainer { flex: 1 1 45%; min-width: 120px; }
 }
 
-/* keep the small-regBox rule */
-.regBoxContainer label {
-    font-size: small;
-}
+.regBoxContainer label { font-size: small; color: var(--ink-soft); }
 
-
-
-/* products table */
+/* ---- products table / orders table ---- */
 
 .productSection {
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    padding: 24px 16px;
 }
+.productSection h2, .productSection h3 { align-self: flex-start; margin-left: 2vw; }
 
 .product-table {
-    width: 80vw;
+    width: 90vw;
+    max-width: 1100px;
     border-collapse: collapse;
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-m);
+    overflow: hidden;
 }
 
-.product-table th,
-.product-table td {
-    border: 1px solid rgb(128, 128, 128);
-    padding: 8px;
+.product-table th, .product-table td {
+    border-bottom: 1px solid var(--line);
+    border-right: none;
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
 }
 
 .product-table th {
-    text-align: left;
-    background-color: rgb(47, 77, 212);
-    color: white;
+    background-color: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.01em;
 }
+
+.product-table tr:last-child td { border-bottom: none; }
+.product-table tr:hover td { background: var(--paper); }
 
 .deleteBtn {
-    color: red;
+    color: #fff;
+    background: var(--brand);
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: var(--radius-s);
+    font-weight: 600;
     cursor: pointer;
 }
+.deleteBtn:hover { background: var(--brand-dark); }
 
-
-/* not found */
+/* ---- not found ---- */
 
 .errorSection {
     width: 100%;
@@ -262,35 +268,36 @@ body {
     justify-content: center;
     align-items: center;
 }
+.errorSection h1 { font-size: 4rem; }
 
-.errorSection h1 {
-    font-size: 4rem;
-}
+h3 { color: var(--brand); }
 
-h3 {
-    color: #D7263D;
-}
-
-
-/* btn Submit */
+/* ---- submit buttons ---- */
 
 .btnSubmit button {
-    background-color: rgb(43, 43, 180);
-    width: 6rem;
+    background-color: var(--brand);
+    width: auto;
+    padding: 10px 28px;
     color: white;
-    padding: 10px 0;
+    font-weight: 700;
+    margin-top: 6px;
     margin-bottom: 20px;
-    border-radius: 5px;
+    border: none;
+    border-radius: var(--radius-s);
+    transition: background 0.15s ease;
 }
+.btnSubmit button:hover { background: var(--brand-dark); }
+.btnSubmit button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-
-/* landing image  */
+/* ---- welcome / landing ---- */
 
 .welcomeSection {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding-top: 48px;
 }
 
 .landingImage {
@@ -298,15 +305,17 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -100px;
+    margin-top: 0;
 }
 
 .welcomeSection h2 {
-    font-size: 3rem;
+    font-size: 2.6rem;
+    font-style: italic;
     text-align: center;
     position: relative;
-    top: -80px;
-    color: #2073c0;
+    top: 0;
+    color: var(--brand);
+    margin-top: 16px;
 }
 
 .showPassword {
@@ -317,14 +326,35 @@ h3 {
     cursor: pointer;
 }
 
-.loaderSection {
-    z-index: 10000;
-}
+.loaderSection { z-index: 10000; }
 
-/* NEW: order status pill + advance button */
-.statusPill { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 6px; background: #eee; color: #333; }
+/* ---- order status pill + advance button ---- */
+
+.statusPill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: var(--line);
+    color: var(--ink-soft);
+}
 .statusPill.status-placed { background: #fde7c7; color: #8a5a00; }
 .statusPill.status-preparing { background: #d6e4ff; color: #1d4ed8; }
 .statusPill.status-out_for_delivery { background: #e3d6ff; color: #6b21a8; }
-.statusPill.status-delivered { background: #d3f4dd; color: #15803d; }
-.statusAdvanceBtn { display: block; font-size: 12px; padding: 4px 8px; cursor: pointer; }
+.statusPill.status-delivered { background: #d3f4dd; color: var(--sage); }
+
+.statusAdvanceBtn {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+}
+.statusAdvanceBtn:hover { border-color: var(--brand); color: var(--brand); }
+.statusAdvanceBtn:disabled { opacity: 0.6; cursor: not-allowed; }
