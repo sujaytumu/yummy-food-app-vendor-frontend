@@ -107,7 +107,7 @@ const AddProduct = () => {
           visible={loading}
           height={100}
           width={100}
-          color="#4fa94d"
+          color="#2e2c86"
           ariaLabel="three-circles-loading"
         />
         <p>Please wait, your product is being added...</p>
@@ -115,8 +115,8 @@ const AddProduct = () => {
 
       {!loading && 
         <form className="tableForm" onSubmit={handleAddProduct}>
-          <h3>Add Product</h3>
-          <label>Product Name</label>
+          <h3>Add a dish</h3>
+          <label>Product name</label>
           <input type="text" value={productName} onChange={(e)=>setProductName(e.target.value)} />
           <label>Price</label>
           <input type="text" value={price} onChange={(e)=>setPrice(e.target.value)}/>
@@ -136,14 +136,14 @@ const AddProduct = () => {
               <div className="checboxContainer">
                 <label>
                   <input type="checkbox" value="non-veg" checked={category.includes('non-veg')} onChange={handleCategoryChange} />
-                  Non-Veg
+                  Non-veg
                 </label>
               </div>
             </div>
           </div>
 
           <div className="checkInp">
-            <label>Best Seller</label>
+            <label>Best seller</label>
             <div className="inputsContainer"> {/* UPDATED: same flex fix for radios */}
               <div className="checboxContainer">
                 <label>
@@ -162,11 +162,11 @@ const AddProduct = () => {
        
           <label>Description</label>
           <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} />
-          <label>Firm Image</label>
+          <label>Product image</label>
           <input type="file" accept="image/*" onChange={handleImageUpload} />
           <br />
           <div className="btnSubmit">
-            <button type='submit'>Submit</button>
+            <button type='submit'>Add product</button>
           </div>
         </form>
       }

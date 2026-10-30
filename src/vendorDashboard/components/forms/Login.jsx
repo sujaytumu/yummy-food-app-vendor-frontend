@@ -89,22 +89,22 @@ const Login = ({ showWelcomeHandler }) => {
             visible={loading}
             height={100}
             width={100}
-            color="#4fa94d"
+            color="#2e2c86"
             ariaLabel="three-circles-loading"
           />
-          <p>Login in process... Please wait</p>
+          <p>Logging you in...</p>
         </div>
       )}
       {!loading && (
         <form className="authForm" onSubmit={loginHandler} autoComplete="off">
-          <h3>Vendor Login</h3>
+          <h3>Log in to your dashboard</h3>
           <label>Email</label>
           <input
             type="text"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="enter your email"
+            placeholder="you@example.com"
           /><br />
           <label>Password</label>
           <input
@@ -112,13 +112,13 @@ const Login = ({ showWelcomeHandler }) => {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="enter your password"
+            placeholder="Your password"
           /><br />
           <span className="showPassword" onClick={handleShowPassword}>
             {showPassword ? 'Hide' : 'Show'}
           </span>
           <div className="btnSubmit">
-            <button type="submit">Submit</button>
+            <button type="submit">Log in</button>
           </div>
         </form>
       )}

@@ -120,11 +120,11 @@ const AddFirm = () => {
     <div className="firmSection">
       {loading ? (
         <div className="loaderSection">
-          <ThreeCircles visible height={100} width={100} color="#4fa94d" />
+          <ThreeCircles visible height={100} width={100} color="#2e2c86" />
         </div>
       ) : (
         <form className="tableForm" onSubmit={handleFirmSubmit}>
-          <h3>Add Firm</h3>
+          <h3>Add your restaurant</h3>
           <label>Firm Name</label>
           <input type="text" value={firmName} onChange={(e) => setFirmName(e.target.value)} />
 
@@ -172,7 +172,7 @@ const AddFirm = () => {
           <input type="file" onChange={handleImageUpload} />
 
           <div className="btnSubmit">
-            <button type="submit">Submit</button>
+            <button type="submit">Add firm</button>
           </div>
         </form>
       )}

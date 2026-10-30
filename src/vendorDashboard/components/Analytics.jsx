@@ -107,6 +107,7 @@ const RevenueChart = ({ daily }) => {
               <path
                 d={columnPath(cx(i) - barW / 2, y(d.revenue), barW, base)}
                 className={hover === i ? 'anBar anBarActive' : 'anBar'}
+                style={{ '--i': i }}
               />
             )}
             {i % every === 0 && i < n - 1 && n - 1 - i >= every / 2 && (
@@ -170,7 +171,7 @@ const TopItems = ({ items }) => {
         >
           <div className="anTopName">{it.name}</div>
           <div className="anTopTrack">
-            <div className={hover === i ? 'anTopBar anBarActive' : 'anTopBar'} style={{ width: `${(it.qty / max) * 100}%` }} />
+            <div className={hover === i ? 'anTopBar anBarActive' : 'anTopBar'} style={{ width: `${(it.qty / max) * 100}%`, '--i': i }} />
           </div>
           <div className="anTopQty">{it.qty}</div>
           {hover === i && <div className="anTopTip">{inr(it.revenue)} revenue</div>}

@@ -8,10 +8,11 @@ const NavBar = ({showLoginHandler, showRegisterHandler, showLogOut, logOutHandle
     <div className="navSection">
       
         <div className="company">
-            Vendor Dashboard
+            <span className="wm">yummy<i aria-hidden="true" /></span>
+            <span className="role">Vendor</span>
         </div>
         <div className="firmName">
-            <h4>Firm Name : {firmName}</h4>
+            <h4>{firmName}</h4>
         </div>
         <div className="userAuth">
           {!showLogOut ?  <>

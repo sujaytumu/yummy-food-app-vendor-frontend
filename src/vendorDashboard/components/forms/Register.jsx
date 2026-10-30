@@ -64,7 +64,7 @@ const Register = ({ showLoginHandler }) => {
         visible={loading}
         height={100}
         width={100}
-        color="#4fa94d"
+        color="#2e2c86"
         ariaLabel="three-circles-loading"
         wrapperStyle={{}}
         wrapperClass=""
@@ -74,7 +74,7 @@ const Register = ({ showLoginHandler }) => {
      }
 {!loading &&     <form className='authForm' onSubmit={handleSubmit} autoComplete='off'>
 
-<h3>Vendor Register</h3>
+<h3>Create your vendor account</h3>
 <label>Username</label>
 <input type="text" name='username' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='enter your name' /><br />
 <label>Email</label>
@@ -85,7 +85,7 @@ const Register = ({ showLoginHandler }) => {
   onClick={handleShowPassword}
 >{showPassword ? 'Hide' : 'Show'}</span>
 <div className="btnSubmit">
-  <button type='submit'>Submit</button>
+  <button type='submit'>Create account</button>
 </div>
 </form>}
   
